@@ -24,12 +24,16 @@ set -o pipefail
 
 # install libraries for building c++ core on ubuntu
 apt-get update && apt-install-and-clear -y --no-install-recommends \
+    acl \
     apt-transport-https \
     ca-certificates \
+    ccache \
+    cmake \
     curl \
     g++ \
     gdb \
     git \
+    gpg-agent \
     graphviz \
     libcurl4-openssl-dev \
     libopenblas-dev \
@@ -41,6 +45,7 @@ apt-get update && apt-install-and-clear -y --no-install-recommends \
     ninja-build \
     parallel \
     pkg-config \
+    software-properties-common \
     sudo \
     unzip \
     wget \

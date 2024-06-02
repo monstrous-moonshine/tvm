@@ -42,7 +42,4 @@ echo deb-src http://apt.llvm.org/jammy/ llvm-toolchain-jammy main\
 
 wget -q -O - http://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
 apt-get update && apt-install-and-clear -y \
-     llvm-15 llvm-16 llvm-17\
-     clang-15 libclang-15-dev \
-     clang-16 libclang-16-dev libpolly-16-dev \
-     clang-17 libclang-17-dev libpolly-17-dev libzstd-dev
+     llvm-17 clang-17 libclang-17-dev libpolly-17-dev libzstd-dev

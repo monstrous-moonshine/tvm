@@ -28,45 +28,16 @@ RUN bash /install/ubuntu_setup_tz.sh
 COPY install/ubuntu_install_core.sh /install/ubuntu_install_core.sh
 RUN bash /install/ubuntu_install_core.sh
 
-# Install libraries for cross-compiling TVM to Aarch64
-COPY install/ubuntu2204_install_aarch64_cross_compile.sh /install/ubuntu2204_install_aarch64_cross_compile.sh
-RUN bash /install/ubuntu2204_install_aarch64_cross_compile.sh
-
-COPY install/ubuntu_install_cmake_source.sh /install/ubuntu_install_cmake_source.sh
-RUN bash /install/ubuntu_install_cmake_source.sh
-
-COPY install/ubuntu_install_googletest.sh /install/ubuntu_install_googletest.sh
-RUN bash /install/ubuntu_install_googletest.sh
-
-ENV TVM_VENV /venv/apache-tvm-py3.8
+ENV TVM_VENV=/venv/apache-tvm-py3.8
 COPY python/bootstrap/lockfiles /install/python/bootstrap/lockfiles
 COPY install/ubuntu_install_python.sh /install/ubuntu_install_python.sh
 RUN bash /install/ubuntu_install_python.sh 3.8
-ENV PATH ${TVM_VENV}/bin:$PATH
-ENV PYTHONNOUSERSITE 1  # Disable .local directory from affecting CI.
+ENV PATH=${TVM_VENV}/bin:$PATH
+# Disable .local directory from affecting CI.
+ENV PYTHONNOUSERSITE=1
 
 COPY install/ubuntu_install_python_package.sh /install/ubuntu_install_python_package.sh
 RUN bash /install/ubuntu_install_python_package.sh
 
-COPY install/ubuntu2204_manual_install_llvm.sh /install/ubuntu2204_manual_install_llvm.sh
-RUN bash /install/ubuntu2204_manual_install_llvm.sh
-
-# Cross build LLVM to Aarch64
-COPY install/ubuntu2204_manual_install_llvm_cross_aarch64.sh /install/ubuntu2204_manual_install_llvm_cross_aarch64.sh
-RUN bash /install/ubuntu2204_manual_install_llvm_cross_aarch64.sh
-
-# Rust env (build early; takes a while)
-COPY install/ubuntu_install_rust.sh /install/ubuntu_install_rust.sh
-RUN bash /install/ubuntu_install_rust.sh
-ENV RUSTUP_HOME /opt/rust
-ENV CARGO_HOME /opt/rust
-ENV PATH $PATH:$CARGO_HOME/bin
-
-# AutoTVM deps
-COPY install/ubuntu_install_redis.sh /install/ubuntu_install_redis.sh
-RUN bash /install/ubuntu_install_redis.sh
-
-# sccache
-COPY install/ubuntu_install_sccache.sh /install/ubuntu_install_sccache.sh
-RUN bash /install/ubuntu_install_sccache.sh
-ENV PATH /opt/sccache:$PATH
+COPY install/ubuntu2204_install_llvm.sh /install/ubuntu2204_install_llvm.sh
+RUN bash /install/ubuntu2204_install_llvm.sh
